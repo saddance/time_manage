@@ -55,7 +55,7 @@ class Manager extends Worker {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ssi', $data['title'], $data['description'], $taskId);
     $stmt->execute();
-  }
+}
 
   public function assignTask($taskId, $workerId) {
     global $conn;
@@ -82,13 +82,4 @@ class Director extends Manager {
     $stmt->bind_param('ssi', $data['title'], $data['description'], $this->id);
     $stmt->execute();
   }
-
-  public function addTask($data) {
-    global $conn;
-    $sql = "INSERT INTO tasks (title, description, created_by) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ssi', $data['title'], $data['description'], $this->id);
-    $stmt->execute();
-  }
 }
-?>

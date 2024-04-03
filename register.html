@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Time Tracking App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Time Tracking App</h1>
+    </header>
+    <main>
+        <h2>User Registration</h2>
+        <form action="register_process.php" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required><br>
+
+            <label for="role">Role:</label>
+            <select name="role" id="role">
+                <option value="worker">Worker</option>
+                <option value="manager">Manager</option>
+                <option value="director">Director</option>
+            </select><br>
+
+            <input type="submit" value="Register">
+        </form>
+    </main>
+</body>
+</html>
