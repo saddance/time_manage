@@ -69,6 +69,13 @@ $tasks = $manager->viewTasks();
             <label for="description">Description:</label>
             <textarea name="description" id="description" required></textarea><br>
 
+            <label for="assigned_to">Assign to:</label>
+            <select name="assigned_to" id="assigned_to" required>
+                <?php foreach ($workers as $worker): ?>
+                    <option value="<?php echo $worker['id']; ?>"><?php echo $worker['username']; ?></option>
+                <?php endforeach; ?>
+            </select><br>
+
             <input type="submit" value="Add Task">
         </form>
         <h3>Tasks:</h3>

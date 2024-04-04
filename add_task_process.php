@@ -3,8 +3,8 @@ session_start();
 require_once 'db_connection.php';
 require_once 'User.php';
 
-// Check if the user is logged in and has the director role
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director' || $_SESSION['role'] !== 'manager') {
+// Check if the user is logged in and has the director or manager role
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] !== 'director' && $_SESSION['role'] !== 'manager')) {
     header("Location: login.html");
     exit();
 }
@@ -19,13 +19,18 @@ if ($role === 'director') {
     $editor = new Manager($userId, $username, $role);
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
+    $assignedTo = $_POST['assigned_to'];
 
-    $editor->addTask(['title' => $title, 'description' => $description]);
-    header("Location: manager_dashboard.php");
+    $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo]);
+    
+    if ($role === 'director') {
+        header("Location: director_dashboard.php");
+    } else {
+        header("Location: manager_dashboard.php");
+    }
     exit();
 }
 ?>

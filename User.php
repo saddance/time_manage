@@ -42,18 +42,22 @@ class Worker extends User {
 }
 
 class Manager extends Worker {
-  
   public function viewWorkers($role = 'worker') {
     global $conn;
     $sql = "SELECT * FROM users WHERE role = ?";
     $stmt = $conn->prepare($sql);
-    // Привязываем параметр $role к SQL запросу
     $stmt->bind_param('s', $role);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
   }
-
+  public function addTask($data) {
+    global $conn;
+    $sql = "INSERT INTO tasks (title, description, created_by, assigned_to) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ssii', $data['title'], $data['description'], $this->id, $data['assigned_to']);
+    $stmt->execute();
+}
   public function editTask($taskId, $data) {
     global $conn;
     $sql = "UPDATE tasks SET title = ?, description = ? WHERE id = ?";
@@ -77,14 +81,6 @@ class Director extends Manager {
     $sql = "UPDATE users SET username = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('si', $data['username'], $workerId);
-    $stmt->execute();
-  }
-
-  public function addTask($data) {
-    global $conn;
-    $sql = "INSERT INTO tasks (title, description, created_by) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ssi', $data['title'], $data['description'], $this->id);
     $stmt->execute();
   }
 }
