@@ -56,6 +56,9 @@ $tasks = $worker->viewTasks();
                             <td><?php echo $task['description']; ?></td>
                             <td><?php echo $task['status']; ?></td>
                             <td>
+                                <form action="worker_dashboard.php" method="POST">
+                                    <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                                    <input type="submit" name="delete_task" value="Delete Task">
                                 <?php if ($task['status'] === 'pending'): ?>
                                     <form action="worker_dashboard.php" method="POST">
                                         <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
@@ -81,16 +84,16 @@ $tasks = $worker->viewTasks();
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete_task'])) {
+        $taskId = $_POST['task_id'];
+        $worker->deleteTask($taskId);
+    } else
     if (isset($_POST['start_task'])) {
         $taskId = $_POST['task_id'];
         $worker->startTask($taskId);
-        header("Location: worker_dashboard.php");
-        exit();
     } elseif (isset($_POST['mark_done'])) {
         $taskId = $_POST['task_id'];
         $worker->markTaskDone($taskId);
-        header("Location: worker_dashboard.php");
-        exit();
     }
 }
 ?>

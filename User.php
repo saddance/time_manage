@@ -39,6 +39,14 @@ class Worker extends User {
     $stmt->bind_param('ii', $taskId, $this->id);
     $stmt->execute();
   }
+
+  public function deleteTask($taskId) {
+    global $conn;
+    $sql = "DELETE FROM tasks WHERE id = ? AND assigned_to = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $taskId, $this->id);
+    $stmt->execute();
+  }
 }
 
 class Manager extends Worker {
