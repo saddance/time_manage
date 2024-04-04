@@ -35,13 +35,15 @@ $tasks = $director->viewTasks();
                 <li><a href="director_dashboard.php">Dashboard</a></li>
                 <li><a href="director_tasks.php">Tasks</a></li>
                 <li><a href="director_workers.php">Workers</a></li>
-                <li><a href="director_managers.php">Managers</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <h2>Welcome, <?php echo $username; ?>!</h2>
+        <td>
+            <a href="edit_user.php?id=<?php echo $worker['id']; ?>">Edit</a>
+        </td>
         <h3>Workers:</h3>
         <?php if (count($workers) > 0): ?>
             <table>
@@ -58,7 +60,7 @@ $tasks = $director->viewTasks();
                             <td><?php echo $worker['username']; ?></td>
                             <td><?php echo $worker['role']; ?></td>
                             <td>
-                                <a href="edit_worker.php?id=<?php echo $worker['id']; ?>">Edit</a>
+                                <a href="edit_user.php?id=<?php echo $worker['id']; ?>">Edit</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -84,7 +86,7 @@ $tasks = $director->viewTasks();
                             <td><?php echo $manager['username']; ?></td>
                             <td><?php echo $manager['role']; ?></td>
                             <td>
-                                <a href="edit_worker.php?id=<?php echo $manager['id']; ?>">Edit</a>
+                                <a href="edit_user.php?id=<?php echo $manager['id']; ?>">Edit</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -94,36 +96,7 @@ $tasks = $director->viewTasks();
             <p>No managers found.</p>
         <?php endif; ?>
 
-        <h3>Tasks:</h3>
-        <?php if (count($tasks) > 0): ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Assigned To</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($tasks as $task): ?>
-                        <tr>
-                            <td><?php echo $task['title']; ?></td>
-                            <td><?php echo $task['description']; ?></td>
-                            <td><?php echo $task['status']; ?></td>
-                            <td><?php echo $task['assigned_to']; ?></td>
-                            <td>
-                                <a href="edit_task.php?id=<?php echo $task['id']; ?>">Edit</a>
-                                <a href="assign_task.php?id=<?php echo $task['id']; ?>">Assign</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No tasks found.</p>
-        <?php endif; ?>
+        
 
         <h3>Add Task:</h3>
         <form action="add_task_process.php" method="POST">
@@ -132,6 +105,13 @@ $tasks = $director->viewTasks();
 
             <label for="description">Description:</label>
             <textarea name="description" id="description" required></textarea><br>
+
+            <label for="assigned_to">Assign to:</label>
+            <select name="assigned_to" id="assigned_to" required>
+                <?php foreach ($workers as $worker): ?>
+                    <option value="<?php echo $worker['id']; ?>"><?php echo $worker['username']; ?></option>
+                <?php endforeach; ?>
+            </select><br>
 
             <input type="submit" value="Add Task">
         </form>
