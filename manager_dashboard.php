@@ -61,7 +61,16 @@ $tasks = $manager->viewTasks();
         <?php else: ?>
             <p>No workers found.</p>
         <?php endif; ?>
+        <h3>Add Task:</h3>
+        <form action="add_task_process.php" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required><br>
 
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" required></textarea><br>
+
+            <input type="submit" value="Add Task">
+        </form>
         <h3>Tasks:</h3>
         <?php if (count($tasks) > 0): ?>
             <table>

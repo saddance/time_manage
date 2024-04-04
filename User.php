@@ -42,10 +42,15 @@ class Worker extends User {
 }
 
 class Manager extends Worker {
-  public function viewWorkers() {
+  
+  public function viewWorkers($role = 'worker') {
     global $conn;
-    $sql = "SELECT * FROM users WHERE role = 'worker'";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM users WHERE role = ?";
+    $stmt = $conn->prepare($sql);
+    // Привязываем параметр $role к SQL запросу
+    $stmt->bind_param('s', $role);
+    $stmt->execute();
+    $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 

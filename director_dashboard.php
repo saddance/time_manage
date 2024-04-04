@@ -14,7 +14,7 @@ $username = $_SESSION['username'];
 $role = $_SESSION['role'];
 
 $director = new Director($userId, $username, $role);
-$workers = $director->viewWorkers();
+$workers = $director->viewWorkers('worker');
 $managers = $director->viewWorkers('manager');
 $tasks = $director->viewTasks();
 ?>
