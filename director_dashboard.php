@@ -40,10 +40,8 @@ $tasks = $director->viewTasks();
         </nav>
     </header>
     <main>
-        <h2>Welcome, <?php echo $username; ?>!</h2>
-        <td>
-            <a href="edit_user.php?id=<?php echo $worker['id']; ?>">Edit</a>
-        </td>
+    <h2>Welcome, <?php echo $username; ?>! <a href="edit_user.php?id=<?php echo $userId; ?>" class="edit-btn">Edit</a></h2>
+        
         <h3>Workers:</h3>
         <?php if (count($workers) > 0): ?>
             <table>
@@ -113,6 +111,14 @@ $tasks = $director->viewTasks();
                 <?php endforeach; ?>
             </select><br>
 
+            <label for="observer">Observer (Manager):</label>
+    <select name="observer" id="observer">
+        <option value="">Select a manager</option>
+        <?php foreach ($managers as $manager): ?>
+            <option value="<?php echo $manager['id']; ?>"><?php echo $manager['username']; ?></option>
+        <?php endforeach; ?>
+    </select><br>
+    
             <input type="submit" value="Add Task">
         </form>
     </main>

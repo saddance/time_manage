@@ -9,9 +9,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
 }
 
 // Получаем все задачи, назначенные работникам
-$sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.status, users.username AS assigned_to 
-        FROM tasks
-        JOIN users ON tasks.assigned_to = users.id";
+$sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.status, 
+                assigned.username AS assigned_to, observer.username AS observer
+                FROM tasks
+                JOIN users AS assigned ON tasks.assigned_to = assigned.id
+                LEFT JOIN users AS observer ON tasks.observer = observer.id;";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -44,20 +46,24 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
             <table>
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Assigned To</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Assigned To</th>
+                    <th>Observer</th> <!-- Добавлен столбец наблюдателя -->
+                   
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($tasks as $task): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($task['title']); ?></td>
-                            <td><?php echo htmlspecialchars($task['description']); ?></td>
-                            <td><?php echo htmlspecialchars($task['status']); ?></td>
-                            <td><?php echo htmlspecialchars($task['assigned_to']); ?></td>
-                        </tr>
+                        <td><?php echo htmlspecialchars($task['title']); ?></td>
+                        <td><?php echo htmlspecialchars($task['description']); ?></td>
+                        <td><?php echo htmlspecialchars($task['status']); ?></td>
+                        <td><?php echo htmlspecialchars($task['assigned_to']); ?></td>
+                        <td><?php echo htmlspecialchars($task['observer']); ?></td> <!-- Корректное отображение наблюдателя -->
+                    
+                </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

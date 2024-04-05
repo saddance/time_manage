@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $assignedTo = $_POST['assigned_to'];
-
-    $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo]);
+    $observer = $_POST['observer'];
+    $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo, 'observer' => $observer]);
     
     if ($role === 'director') {
         header("Location: director_dashboard.php");

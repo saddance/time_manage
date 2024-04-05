@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     description TEXT,
     status VARCHAR(50) NOT NULL DEFAULT 'pending',
     assigned_to INT,
-    created_by INT,
+    observer INT,
     FOREIGN KEY (assigned_to) REFERENCES users(id),
-    FOREIGN KEY (created_by) REFERENCES users(id)
+    FOREIGN KEY (observer) REFERENCES users(id)
 );
