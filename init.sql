@@ -14,7 +14,19 @@ CREATE TABLE IF NOT EXISTS tasks (
     description TEXT,
     status VARCHAR(50) NOT NULL DEFAULT 'pending',
     assigned_to INT,
-    observer INT,
+    created_by INT,
     FOREIGN KEY (assigned_to) REFERENCES users(id),
-    FOREIGN KEY (observer) REFERENCES users(id)
+    FOREIGN KEY (created_by) REFERENCES users(id)
 );
+ALTER TABLE tasks ADD COLUMN observer INT NULL;
+ALTER TABLE tasks ADD CONSTRAINT fk_tasks_observer FOREIGN KEY (observer) REFERENCES users(id);
+---ALTER TABLE users ADD COLUMN user_log INT NULL; ��������
+---ALTER TABLE users ADD CONSTRAINT fk_user_log FOREIGN KEY (observer) REFERENCES users(id);��������
+ALTER TABLE tasks
+
+ADD COLUMN start_date DATE NULL,
+ADD COLUMN due_date DATE NULL;
+
+-- Устанавливаем внешние ключи для наблюдателя
+ALTER TABLE tasks
+ADD CONSTRAINT fk_tasks_observer FOREIGN KEY (observer) REFERENCES users(id);

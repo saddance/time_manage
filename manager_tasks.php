@@ -3,7 +3,7 @@ session_start();
 require_once 'db_connection.php';
 require_once 'User.php';
 // ��������, ��� ������������ ����� ��� ��������
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'manager') {
     header("Location: login.html");
     exit();
 }

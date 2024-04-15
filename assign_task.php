@@ -38,7 +38,7 @@ $workers = $manager->viewWorkers();
 </head>
 <body>
     <header>
-        <h1>Time Tracking App</h1>
+    <div class="header"><h1>Сервис по учету рабочего времени</h1></div>
         <nav>
             <ul>
                 <li><a href="manager_dashboard.php">Dashboard</a></li>

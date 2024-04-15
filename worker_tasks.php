@@ -14,29 +14,11 @@ $username = $_SESSION['username'];
 $role = $_SESSION['role'];
 
 $worker = new Worker($userId, $username, $role);
-$tasks = $worker->viewTasks();
+$tasks = $worker->viewallTasks();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worker Tasks - Time Tracking App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Time Tracking App</h1>
-        <nav>
-            <ul>
-                <li><a href="worker_dashboard.php">Dashboard</a></li>
-                <li><a href="worker_tasks.php">Tasks</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+<?php include 'menu.php'; ?>  <!-- Подключение меню -->
+    <section class="tasks">
         <h2>Your Tasks</h2>
         <?php if (count($tasks) > 0): ?>
             <table>
@@ -45,7 +27,7 @@ $tasks = $worker->viewTasks();
                         <th>Title</th>
                         <th>Description</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -54,19 +36,7 @@ $tasks = $worker->viewTasks();
                             <td><?php echo $task['title']; ?></td>
                             <td><?php echo $task['description']; ?></td>
                             <td><?php echo $task['status']; ?></td>
-                            <td>
-                                <?php if ($task['status'] === 'pending'): ?>
-                                    <form action="worker_dashboard.php" method="POST">
-                                        <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
-                                        <input type="submit" name="start_task" value="Start Task">
-                                    </form>
-                                <?php elseif ($task['status'] === 'in_progress'): ?>
-                                    <form action="worker_dashboard.php" method="POST">
-                                        <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
-                                        <input type="submit" name="mark_done" value="Mark as Done">
-                                    </form>
-                                <?php endif; ?>
-                            </td>
+                            
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -74,6 +44,8 @@ $tasks = $worker->viewTasks();
         <?php else: ?>
             <p>No tasks assigned to you.</p>
         <?php endif; ?>
+    </section>
+    </div>
     </main>
 </body>
 </html>

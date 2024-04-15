@@ -14,7 +14,7 @@ class User {
 }
 
 class Worker extends User {
-  public function viewTasks() {
+  public function viewallTasks() {
     global $conn;
     $sql = "SELECT * FROM tasks WHERE assigned_to = ?";
     $stmt = $conn->prepare($sql);
@@ -23,7 +23,16 @@ class Worker extends User {
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
   }
-
+  public function viewTasks() {
+    global $conn;
+    // В запрос добавлено условие, которое исключает задания со статусом 'done'
+    $sql = "SELECT id, title, description, status, start_date, due_date FROM tasks WHERE assigned_to = ? AND status <> 'done' ORDER BY id DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $this->id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
   public function startTask($taskId) {
     global $conn;
     $sql = "UPDATE tasks SET status = 'in_progress' WHERE id = ? AND assigned_to = ?";
@@ -61,9 +70,9 @@ class Manager extends Worker {
   }
   public function addTask($data) {
     global $conn;
-    $sql = "INSERT INTO tasks (title, description, created_by, assigned_to) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO tasks (title, description, assigned_to, observer, start_date, due_date) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ssii', $data['title'], $data['description'], $this->id, $data['assigned_to']);
+    $stmt->bind_param('ssii', $data['title'], $data['description'], $data['assigned_to'], $data['observer'], $data['start_date'], $data['due_date']);
     $stmt->execute();
 }
   public function editTask($taskId, $data) {

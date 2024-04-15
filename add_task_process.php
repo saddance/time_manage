@@ -23,8 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $assignedTo = $_POST['assigned_to'];
-    $observer = $_POST['observer'];
-    $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo, 'observer' => $observer]);
+    
+    $startdate = $_POST['start_date'];
+    $duedate = $_POST['due_date'];
+    if ($role === 'director'){
+        $observer = $_POST['observer'];
+        $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo, 'observer' => $observer, 'start_date' => $startdate, 'due_date' => $duedate]);
+        
+    }
+    else {
+    $editor->addTask(['title' => $title, 'description' => $description, 'assigned_to' => $assignedTo,'start_date' => $startdate, 'due_date' => $duedate]);
+    }
     
     if ($role === 'director') {
         header("Location: director_dashboard.php");

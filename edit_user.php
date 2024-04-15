@@ -2,31 +2,33 @@
 session_start();
 require_once 'db_connection.php';
 
-// Проверяем, есть ли в сессии данные о пользователе и имеет ли он роль "director"
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ "director"
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
     header("Location: login.html");
     exit();
 }
 
-// Получаем ID пользователя из GET запроса
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GET пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 $userIdToEdit = $_GET['id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Хешируем пароль
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // РҐРµС€РёСЂРѕРІР°РЅРёРµ РїР°СЂРѕР»СЏ
 
     $sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ssi', $username, $password, $userIdToEdit);
-    $stmt->execute();
-    
-    if ($stmt->affected_rows > 0) {
-        echo "User updated successfully.";
+    if ($stmt->execute()) {
+        // РџРµСЂРµРЅР°РїСЂР°РІР»РµРЅРёРµ РЅР° СЃС‚СЂР°РЅРёС†Сѓ СЃРѕ СЃРїРёСЃРєРѕРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РїРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ
+        $_SESSION['message'] = 'User updated successfully.';
+        header('Location: director_workers.php'); // РђРґР°РїС‚РёСЂСѓР№С‚Рµ Р°РґСЂРµСЃ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РІР°С€РёРјРё РЅСѓР¶РґР°РјРё
+        exit();
     } else {
         echo "An error occurred or no changes were made.";
     }
+
 } else {
-    // Если страница загружается, а не отправляется форма, получаем текущие данные пользователя
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     $sql = "SELECT id, username FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $userIdToEdit);
@@ -46,17 +48,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Edit User</h1>
     <?php if (isset($user)): ?>
-        <form action="edit_user.php?id=<?php echo htmlspecialchars($userIdToEdit); ?>" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>" required><br>
+        <form action="edit_user.php?id=<?php echo htmlspecialchars($userIdToEdit); ?>" method="post" onsubmit="return confirmUpdate();">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($user['username']); ?>" required><br>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required><br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required><br>
 
-            <input type="submit" value="Update User">
-        </form>
+    <input type="submit" value="Update User">
+</form>
+
+<script>
+    function confirmUpdate() {
+        return confirm("РҐРѕС‚РёС‚Рµ Р»Рё РІС‹ РѕР±РЅРѕРІРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ?");
+    }
+</script>
     <?php else: ?>
         <p>User not found.</p>
     <?php endif; ?>
+    <script>
+        function confirmUpdate() {
+            var updateConfirmed = confirm("РҐРѕС‚РёС‚Рµ Р»Рё РІС‹ РѕР±РЅРѕРІРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ?");
+            if (updateConfirmed) {
+                // РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅР°Р¶Р°Р» "РћРљ", С„РѕСЂРјР° Р±СѓРґРµС‚ РѕС‚РїСЂР°РІР»РµРЅР°
+                return true;
+            } else {
+                // РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅР°Р¶Р°Р» "РћС‚РјРµРЅР°", РѕС‚РїСЂР°РІРєР° С„РѕСЂРјС‹ РѕС‚РјРµРЅСЏРµС‚СЃСЏ
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>
