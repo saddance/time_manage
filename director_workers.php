@@ -22,14 +22,14 @@ $managers = $director->viewWorkers('manager');
 
 <?php include 'menu.php'; ?>  <!-- Подключение меню -->
     <section class="tasks">
-        <h2>Workers and Managers:</h2>
+        <h2>Сотрудники:</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                    <th>Actions</th>
+                    <th>ФИО</th>
+                    <th>Роль</th>
+                    <th>Редактирование</th>
+                    <th>Удалить</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,9 +39,9 @@ $managers = $director->viewWorkers('manager');
                         <td><?php echo htmlspecialchars($user['role']); ?></td>
                         <td>
                         
-                        <a href="edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>">Edit</a>
+                        <a href="edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>">Редактировать</a>
                         </td>
-                        <td><a href="delete_worker.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Are you sure you want to delete this worker?');">Delete</a></td>
+                        <td><a href="delete_worker.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Are you sure you want to delete this worker?');">Удалить</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

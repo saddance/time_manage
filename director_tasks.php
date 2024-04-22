@@ -29,54 +29,7 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <?php include 'menu.php'; ?>  <!-- Подключение меню -->
-    <section class="tasks">
-        <h2>All Assigned Tasks:</h2>
-        <?php if (!empty($tasks)): ?>
-            <table>
-                <thead>
-                    <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Assigned To</th>
-                    <th>Observer</th> <!-- �������� ������� ����������� -->
-                    <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($tasks as $task): ?>
-                        <tr>
-                        <td><?php echo htmlspecialchars($task['title']); ?></td>
-                        <td><?php echo htmlspecialchars($task['description']); ?></td>
-                        <td><?php echo htmlspecialchars($task['status']); ?></td>
-                        <td><?php echo htmlspecialchars($task['assigned_to']); ?></td>
-                        <td><?php echo htmlspecialchars($task['observer']); ?></td> <!-- ���������� ����������� ����������� -->
-                        <td><a href="delete_task.php?id=<?php echo $task['id']; ?>" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a></td>
-                </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No tasks found.</p>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['message'])): ?>
-    <div class="message">
-        <?php 
-        echo $_SESSION['message']; 
-        unset($_SESSION['message']);
-        ?>
-    </div>
-<?php endif; ?>
-
-<?php if (isset($_SESSION['error'])): ?>
-    <div class="error">
-        <?php 
-        echo $_SESSION['error']; 
-        unset($_SESSION['error']);
-        ?>
-    </div>
-<?php endif; ?>
-</section>
+<?php include 'user_tasks.php'; ?> 
     </main>
 </body>
 </html>

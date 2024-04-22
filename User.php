@@ -33,21 +33,21 @@ class Worker extends User {
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
 }
-  public function startTask($taskId) {
-    global $conn;
-    $sql = "UPDATE tasks SET status = 'in_progress' WHERE id = ? AND assigned_to = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ii', $taskId, $this->id);
-    $stmt->execute();
-  }
+public function startTask($taskId) {
+  global $conn;
+  $sql = "UPDATE tasks SET status = 'in_progress', accepted_date = NOW() WHERE id = ? AND assigned_to = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('ii', $taskId, $this->id);
+  $stmt->execute();
+}
 
-  public function markTaskDone($taskId) {
-    global $conn;
-    $sql = "UPDATE tasks SET status = 'done' WHERE id = ? AND assigned_to = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ii', $taskId, $this->id);
-    $stmt->execute();
-  }
+public function markTaskDone($taskId) {
+  global $conn;
+  $sql = "UPDATE tasks SET status = 'done', completed_date = NOW() WHERE id = ? AND assigned_to = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('ii', $taskId, $this->id);
+  $stmt->execute();
+}
 
   public function deleteTask($taskId) {
     global $conn;
@@ -72,7 +72,7 @@ class Manager extends Worker {
     global $conn;
     $sql = "INSERT INTO tasks (title, description, assigned_to, observer, start_date, due_date) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ssii', $data['title'], $data['description'], $data['assigned_to'], $data['observer'], $data['start_date'], $data['due_date']);
+    $stmt->bind_param('ssisss', $data['title'], $data['description'], $data['assigned_to'], $data['observer'], $data['start_date'], $data['due_date']);
     $stmt->execute();
 }
   public function editTask($taskId, $data) {

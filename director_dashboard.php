@@ -23,30 +23,30 @@ $tasks = $director->viewTasks();
         
     <section class="tasks">
 
-    <h3>Add Task:</h3>
+    <h3>Создать задание:</h3>
 <form action="add_task_process.php" method="POST">
-    <label for="title">Title:</label>
+    <label for="title">Заголовок:</label>
     <input type="text" name="title" id="title" required><br>
 
-    <label for="description">Description:</label>
+    <label for="description">Описание:</label>
     <textarea name="description" id="description" required></textarea><br>
 
-    <label for="start_date">Start Date:</label>
+    <label for="start_date">Дата начала:</label>
     <input type="date" name="start_date" id="start_date" required><br>
 
-    <label for="due_date">Due Date:</label>
+    <label for="due_date">Дата окончания:</label>
     <input type="date" name="due_date" id="due_date" required><br>
 
-    <label for="assigned_to">Assign to:</label>
+    <label for="assigned_to">Выполняющий:</label>
     <select name="assigned_to" id="assigned_to" required>
         <?php foreach ($workers as $worker): ?>
             <option value="<?php echo $worker['id']; ?>"><?php echo $worker['username']; ?></option>
         <?php endforeach; ?>
     </select><br>
 
-    <label for="observer">Observer (Manager):</label>
+    <label for="observer">Проверяющий (Менеджер):</label>
     <select name="observer" id="observer" required>
-        <option value="">Select a manager</option>
+        <option value="">Выбрать менеджера</option>
         <?php foreach ($managers as $manager): ?>
             <option value="<?php echo $manager['id']; ?>"><?php echo $manager['username']; ?></option>
         <?php endforeach; ?>
@@ -54,18 +54,18 @@ $tasks = $director->viewTasks();
 
     <input type="submit" value="Add Task">
 </form>
-        <h3>Add New Worker:</h3>
+        <h3>Добавить сотрудника:</h3>
     <form action="add_worker_process.php" method="POST">
-        <label for="username">Username:</label>
+        <label for="username">ФИО:</label>
         <input type="text" name="username" id="username" required><br>
 
-        <label for="password">Password:</label>
+        <label for="password">Пароль:</label>
         <input type="password" name="password" id="password" required><br>
 
-        <label for="role">Role:</label>
+        <label for="role">Роль:</label>
         <select name="role" id="role" required>
-            <option value="worker">Worker</option>
-            <option value="manager">Manager</option>
+            <option value="worker">Мастер производства</option>
+            <option value="manager">Менеджер</option>
         </select><br>
     
         <input type="submit" value="Add Worker">

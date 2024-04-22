@@ -1,3 +1,77 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    
+    background: #f4f4f4;
+}
+.tasks_tables h2{
+    margin-left: 202pt;
+}
+/* Стилизация таблицы */
+.tasks_tables table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #f8f8f8;
+    margin-left: 195pt;
+}
+
+.tasks_tables thead {
+    background-color: #f4f4f4;
+}
+
+.tasks_tables th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tasks_tables th {
+    background-color: #eaeaea;
+}
+
+.tasks_tables td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.tasks_tables tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Сообщения об ошибках и подтверждениях */
+.message, .error {
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.message {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+/* Стили разделов */
+.tasks_tables section.tasks {
+    padding: 20px;
+    background: #ffffff;
+    margin: 15px auto;
+    width: 60%; /* или другая ширина по вашему выбору */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Стилизация заголовков разделов */
+.tasks_tables h2 {
+    margin-top: 0;
+}
 .tasks-container {
     display: flex;
     flex-wrap: wrap;
@@ -12,7 +86,26 @@
 transition: margin-left 0.3s ease;
 padding: 0px ,50px;
 }
-
+.task-content {
+    flex-grow: 1; /* Контент займет все доступное пространство */
+  }
+  .task-info {
+    text-align: right;
+    margin-left: 20px; /* Отступ слева для блока информации о задаче */
+  }
+.title {
+    margin: 0; /* Убираем отступы у заголовка */
+    color: #333; /* Цвет текста заголовка */
+    font-size: 1.2em; /* Размер шрифта заголовка */
+}
+.description{
+    margin: 0; /* Убираем отступы у абзацев */
+    color: #666; /* Цвет текста описания */
+}
+.task-dates{
+    text-align: right; /* Выравниваем даты по правому краю */
+  color: #999; /* Цвет текста дат */
+}
 .task-card {
     background: #FFFFFF;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -20,11 +113,11 @@ padding: 0px ,50px;
     padding: 20px;
     width: calc(33.333% - -420px);
     list-style-type: none;
+    display: flex;
+    align-items: flex-start; /* Выравнивание содержимого в начале карточки */
+    justify-content: space-between;
 }
 
-.task-card h4 {
-    margin-top: 0;
-}
 
 .navigation ul li{
     background-color: #e6e6e6;

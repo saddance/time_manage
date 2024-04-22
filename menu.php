@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <div class="header"><h1>Сервис по учету рабочего времени</h1></div>
+        <div class="header"><h1>Система учета рабочего времени</h1></div>
     </header>
     <main>
         <div class="top-bar"> 

@@ -18,33 +18,7 @@ $tasks = $worker->viewallTasks();
 ?>
 
 <?php include 'menu.php'; ?>  <!-- Подключение меню -->
-    <section class="tasks">
-        <h2>Your Tasks</h2>
-        <?php if (count($tasks) > 0): ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($tasks as $task): ?>
-                        <tr>
-                            <td><?php echo $task['title']; ?></td>
-                            <td><?php echo $task['description']; ?></td>
-                            <td><?php echo $task['status']; ?></td>
-                            
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No tasks assigned to you.</p>
-        <?php endif; ?>
-    </section>
+<?php include 'user_tasks.php'; ?> 
     </div>
     </main>
 </body>
